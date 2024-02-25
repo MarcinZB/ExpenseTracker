@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-</head>
-<body>
+{% extends 'myapp/base.html' %}
+{%block body%}
+    <h1>New page</h1>
+    <form class="shadow-lg m-10 rounded-lg" method="post">
+        {% csrf_token %}
+        <div class="form-container px-10 py-10 flex">
+            <div class="mx-10">
+                <div class="mb-3 mt-2">
+                    <label>Expense Name</label>
+                </div>
+                <div class="border">{{expense_form.name}}</div>
+            </div>
 
-<h1>Template</h1>
+            <div class="mx-10">
+                <div class="mb-3 mt-2">
+                    <label>Amount</label>
+                </div>
+                <div class="border">{{expense_form.amount}}</div>
+            </div>
 
-</body>
-</html> 
+            <div class="mx-10">
+                <div class="mb-3 mt-2">
+                    <label>Category</label>
+                </div>
+                <div class="border">{{expense_form.category}}</div>
+            </div>
+
+            <div class="mx-10 mt-8">
+                <button class="bg-green-500 px-5 py-2 rounded-lg text-white font-bold">Add</button>
+            </div>
+
+            
+        </div>
+        
+    </form>
+    <div>Expenses</div>
+    <div class="shadow-lg m-10 rounded-lg">
+        <div class="expense-header flex flex-wrap space-x-40">
+            <span>Name</span>
+            <span>Category</span>
+            <span>Date</span>
+            <span>Amount</span>
+            <span>Edit</span>
+            <span>Delete</span>
+        </div>
+        <hr class="m-10">
+        {%for expense in expenses%}
+        <div class="expense-row flex flex-wrap px-20 py-5">
+            <span class="font-bold">{{expense.name}}</span>
+            <span class="font-bold">{{expense.category}}</span>
+            <span class="font-bold">{{expense.date}}</span>
+            <span class="font-bold">{{expense.amount}}</span>
+            <span class="font-bold"><a href="{% url 'edit' expense.id%}">Edit</a></span>
+            <span class="font-bold"><a href="">Delete</a></span>
+        </div>
+        {%endfor%}
+    </div>
+    
+    
+{% endblock %}
