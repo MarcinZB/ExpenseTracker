@@ -1,6 +1,7 @@
 {% extends 'myapp/base.html' %}
+{% load static %}
 {%block body%}
-    <h1>New page</h1>
+    <h1 class="m-10 font-bold">Add Expense </h1>
     <form class="shadow-lg m-10 rounded-lg" method="post">
         {% csrf_token %}
         <div class="form-container px-10 py-10 flex">
@@ -33,9 +34,9 @@
         </div>
         
     </form>
-    <div>Expenses</div>
+    <div class="m-10 font-bold">Expenses</div>
     <div class="shadow-lg m-10 rounded-lg">
-        <div class="expense-header flex flex-wrap space-x-40">
+        <div class="expense-header flex flex-wrap space-x-40 px-20 py-5">
             <span>Name</span>
             <span>Category</span>
             <span>Date</span>
@@ -49,11 +50,29 @@
             <span class="font-bold">{{expense.name}}</span>
             <span class="font-bold">{{expense.category}}</span>
             <span class="font-bold">{{expense.date}}</span>
-            <span class="font-bold">{{expense.amount}}</span>
-            <span class="font-bold"><a href="{% url 'edit' expense.id%}">Edit</a></span>
-            <span class="font-bold"><a href="">Delete</a></span>
+            <span class="font-bold">PLN{{expense.amount}}</span>
+            <span class="pl-24"><a href="{% url 'edit' expense.id%}">
+                <img class="h-5" src="{% static 'myapp/images/edit.png' %}" alt="Edit">
+            </a></span>
+            <span class="flex">
+                <form method="POST" action="{% url 'delete' expense.id%}">
+                    {% csrf_token %}
+                    <button class="font-bold" type="submit" name="delete">
+                        <img class="h-5" class="" src="{% static 'myapp/images/delete.png' %}" alt="Delete">
+                    </button>
+                </form>
+                
+            </span>
         </div>
         {%endfor%}
+        <!--Display total amount-->
+        <div class="px-24 py-5">
+            <span class="font-bold text-red-500">
+            Total expenses: PLN{{ total_expenses.amount__sum }}
+            </span>
+        </div>
+        
+        <!--Display total amount-->
     </div>
     
     
